@@ -12,17 +12,14 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-
 $("#add-train-btn").on("click", function(event) {
   event.preventDefault();
-
   
   var trnName = $("#train-name-input").val().trim();
   var trnDestination = $("#destination-input").val().trim();
   // var trnFtt = moment.unix(trnFtt).format("HH:mm");
   var trnFtt = moment($("#ftt-input").val().trim(), "HH:mm").format("HH:mm");
   var trnFreq = $("#freq-input").val().trim();
-
   
   var newtrn = {
     name: trnName,
@@ -33,10 +30,6 @@ $("#add-train-btn").on("click", function(event) {
 
   // Uploads train data to the database
   database.ref().push(newtrn);
-
-
-  
-
   
   $("#train-name-input").val("");
   $("#destination-input").val("");
@@ -46,17 +39,13 @@ $("#add-train-btn").on("click", function(event) {
 
 database.ref().on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
-
   
   var trnName = childSnapshot.val().name;
   var trnDestination = childSnapshot.val().destination;
   var trnFtt = childSnapshot.val().ftt;
   var trnFreq = childSnapshot.val().freq;
-
   
-  // var trnFttPretty = moment.unix(trnFtt).format("HH:mm");
-
-  
+  // var trnFttPretty = moment.unix(trnFtt).format("HH:mm");  
   var trnMinAway = moment().diff(moment(trnFtt, "HH:mm"), "time");
   var trnNextArr = trnFreq + trnFtt;
   
@@ -65,10 +54,8 @@ database.ref().on("child_added", function(childSnapshot) {
     $("<td>").text(trnDestination),
     $("<td>").text(trnFreq),
     $("<td>").text(trnNextArr),
-    $("<td>").text(trnMinAway),
-    // $("<td>").text(trnFreq),
+    $("<td>").text(trnMinAway), 
   );
-
 
   // Append the new row to the table
   $("#train-table > tbody").append(newRow);
